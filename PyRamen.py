@@ -1,7 +1,7 @@
 import csv
-#File to load and output
 
-file_to_load ="menu_data.csv
+#File to load and output
+file_to_load = "menu_data.csv"
 file_to_load = "sales_data.csv"
 file_to_output = "menu_data.txt"
 file_to_output = "sales_data.csv"
@@ -9,6 +9,8 @@ file_to_output = "sales_data.csv"
 #Track Menu and Sales Data 
 menu = []
 sales = []
+report = []
+
 
 # Open and read the csv 
 with open (Resources/menu_data.csv_path, ="") as menu_csv
@@ -16,46 +18,54 @@ with open (Resources/menu_data.csv_path, ="") as menu_csv
     next(menu)
     for item in menu:
     menu_list.append(item)
+    for row in menu
+    for row[row]] = {
+        "price":float (row[3]),
+        "cost" : float (row [4])
     
+     
 with open (Resources/sale_data.cvs_path, ="") as sales_data.csv
     reader = csv.reader (sales_data.csv)
     next(sales)
     for revenue in sales
     sale_list.append(revenue)
+    for row in sales
+    sales[row[0]] = {
+        "Quantity" int(int(row{3}))
+        "Menu_item" int(row {4})
+        
+          if row[4] not in report:
+            report[row[4]] = {
+                "01-count": 0,
+                "02-revenue": 0,
+                "03-cogs": 0,
+                "04-profit": 0,
+                }
     
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-# -->>  Print the analysis to the terminal
-print("Financial Analysis")
-print("----------------------------")
-print(f"Total Months:  {count_months}")
-print(f"Total:  ${net_profit_loss}")
-print(f"Average Change:  ${average_profit_loss}")
-print(f"Greatest Increase in Profits:  {best_month} (${highest_change})")
-print(f"Greatest Decrease in Losses:  {worst_month} (${lowest_change})")
+   or sales_item in sales.values():
+    match = 0
+    for item_on_menu, price_cost in menu.items():
+        if  sales_item["Menu_item"] == item_on_menu:
+            report[sales_item["Menu_item"]]["01-count"] += sales_item["Quantity"]
+            report[sales_item["Menu_item"]]["02-revenue"] += price_cost["price"] * sales_item["Quantity"]
+            report[sales_item["Menu_item"]]["03-cogs"] += price_cost['cost'] * sales_item["Quantity"]
+            report[sales_item["Menu_item"]]["04-profit"] = report[sales_item["Menu_item"]]["02-revenue"] - report[sales_item["Menu_item"]]["03-cogs"]
+            match = 1
+    if match == 0:
+        print(f"{sales_item} does not equal any item! NO MATCH!") 
+
+print(report) 
 
 
-# -->>  Export a text file with the results
-budget_file = os.path.join("Output", "budget_data.txt")
-with open(budget_file, "w") as outfile:
-
-    outfile.write("Financial Analysis\n")
-    outfile.write("----------------------------\n")
-    outfile.write(f"Total Months:  {count_months}\n")
-    outfile.write(f"Total:  ${net_profit_loss}\n")
-    outfile.write(f"Average Change:  ${average_profit_loss}\n")
-    outfile.write(f"Greatest Increase in Profits:  {best_month} (${highest_change})\n")
-    outfile.write(f"Greatest Decrease in Losses:  {worst_month} (${lowest_change})\n")
 #Print the Output
 print(file_to_output)
+
+#Export the results to text file
+with open(file_to_output, "w") as txt_file:
+    txt_file.write(file_to_output)
+
+
+
 
 #Export the results to text file
 with open(file_to_output, "w") as txt_file:
