@@ -1,3 +1,5 @@
+#Import dependencies
+import os
 import csv
 
 #File to load and output
@@ -7,54 +9,89 @@ file_to_output = "budget_data_1.txt"
 
 #Track various budget parameters
 total_months = 0
-total_pl = 0
-value = 0
-change = 0
+profit_loss_changes = 0
+net_profit_loss= 0
+previous_month_profit_loss= 0
 dates = []
 profits = []
 
-# Open and read the csv and convert into a list of dictionaries
-with open(file_to_load) as budget_data:
-    reader =csv.DictReader(budget_data)
+# Open and read the csv 
+with open (budget_data_csv_path,newline="") as csvfile   
+    reader =csv.reader (csvfile, delimiter=",")
     
-    for row in reader:
+    #Read the header row first
+    cvs_header = next(cvsfile)
 
-#Track the totals
+#print(f'header: {csv_header}")
+#This prints -->> Header: Date, Profit/Losses
 
-total_months = total_months + 1
-total_pl = total_pl +int(firstrow[1])
-value =int(first_row[1])
-
-#Track revenue changes
-revenue_change =int(row["Revenue]") - prev_revenue
-prev_revenue = int(row["Revenue"])
-revenue_change_list = revenue_change_list + [revenue_change]
-month_of_change =month_of_change = [row["Date"]]
-
-#Calculate the greatest increase
-if (revenue_change > greatest_increase[1]):
-    greatest_increase[0] = row["Date"]
-    greatest_increase[1] = revenue_change
-
-#Calculate the greatest decrease
-if (revenue_change < greatest_decrease [1]):
-    greatest_decrease[0] = row["Date"]
-    greatest_decrease[1] = revenue_change
-    
-#Calculate the Average Revenue Change
-revenue_avg = sum(revenue_change_list) / len(revenue_change_list)
-  
-#Generate Output Summary
-output = (
-    f"\nFinancialAnalysis\n"
-    f"--------------------\n"
-    f"total_months: {total_months}\n"
-    f"total revenue: ${total revenue}\n"
-    f"Average Revenue Change: ${revenue_avg}\n"
-    f"Greatest Increase in Revenue: {greatest_increase[0]} ($[greatest_increase[1]})\n"
-    f"Greatest Decrease in Revenue: [greatest_decrease[0]} ($[greatest_decrease[1])"\n"
+# Read through each row of data after header
+for row in cvs_reader:
     
 
+t# Count of months
+        count_months += 1
+
+        # Net total amount of "Profit/Losses" over the entire period
+        current_month_profit_loss = int(row[1])
+        net_profit_loss += current_month_profit_loss
+
+        if (count_months == 1):
+            # Make the value of previous month to be equal to current month
+            previous_month_profit_loss = current_month_profit_loss
+            continue
+
+        else:
+
+            # Compute change in profit loss 
+            profit_loss_change = current_month_profit_loss - previous_month_profit_loss
+
+            # Append each month to the months[]
+            months.append(row[0])
+
+            # Append each profit_loss_change to the profit_loss_changes[]
+            profit_loss_changes.append(profit_loss_change)
+
+            # Make the current_month_loss to be previous_month_profit_loss for the next loop
+            previous_month_profit_loss = current_month_profit_loss
+
+    #sum and average of the changes in "Profit/Losses" over the entire period
+    sum_profit_loss = sum(profit_loss_changes)
+    average_profit_loss = round(sum_profit_loss/(count_months - 1), 2)
+
+    # highest and lowest changes in "Profit/Losses" over the entire period
+    highest_change = max(profit_loss_changes)
+    lowest_change = min(profit_loss_changes)
+
+    # Locate the index value of highest and lowest changes in "Profit/Losses" over the entire period
+    highest_month_index = profit_loss_changes.index(highest_change)
+    lowest_month_index = profit_loss_changes.index(lowest_change)
+
+    # Assign best and worst month
+    best_month = months[highest_month_index]
+    worst_month = months[lowest_month_index]
+
+# -->>  Print the analysis to the terminal
+print("Financial Analysis")
+print("----------------------------")
+print(f"Total Months:  {count_months}")
+print(f"Total:  ${net_profit_loss}")
+print(f"Average Change:  ${average_profit_loss}")
+print(f"Greatest Increase in Profits:  {best_month} (${highest_change})")
+print(f"Greatest Decrease in Losses:  {worst_month} (${lowest_change})")
+
+
+# -->>  Export a text file with the results
+budget_file = os.path.join("Output", "budget_data.txt")
+with open(budget_file, "w") as outfile:
+
+    outfile.write("Financial Analysis\n")
+    outfile.write("----------------------------\n")
+    outfile.write(f"Total Months:  {count_months}\n")
+    outfile.write(f"Total:  ${net_profit_loss}\n")
+    outfile.write(f"Average Change:  ${average_profit_loss}\n")
+    outfile.write(f"Greatest Increase in Profits:  {best_month} (${highest_change})\n")
+    outfile.write(f"Greatest Decrease in Losses:  {worst_month} (${lowest_change})\n")
 #Print the Output
 print(file_to_output)
 
